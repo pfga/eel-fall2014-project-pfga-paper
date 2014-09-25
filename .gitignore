@@ -1,0 +1,5 @@
+project/project
+.gitignore
+target
+tex/IEEEtran.cls
+tex/paper.pdf
