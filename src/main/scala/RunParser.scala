@@ -1,3 +1,4 @@
+import HelperUtils.HelperFunctions
 import Parser.{ConfigReader, SchemaValidator}
 import Parser.ConfigKeyNames._
 
@@ -23,26 +24,14 @@ object RunParser extends App {
     val dtKeyName = config.getString(loadDate)
     val reduceColName = config.getString(reduceColumn)
     val delimiter = config.getString(delimiterStr)
+    val schemaMap = HelperFunctions.schemaMap(schemaArr)
 
-    val schemaMap = schemaArr.foldLeft((Map[String, Int](), 0)) {
-      (opCols, col) =>
-        val (colsMap, idx) = opCols
-        (colsMap + Tuple2(col, idx), idx + 1)
-    }._1
-
-    println(schemaMap.mkString("(", ",", ")"))
-
-
-    def getCol(cols: Array[String], colName: String) = {
-      cols(schemaMap(colName))
-    }
-
-    val mapIpLines = io.Source.fromFile("input.txt").getLines()
+    val mapIpLines = io.Source.fromURL(getClass.getResource("/input.txt")).getLines()
     val mapOps = mapIpLines.foldLeft(Map[String, List[Int]]()) { (mapOp, line) =>
       val cols = line.split(delimiter, -1)
 
-      val key = getCol(cols, dtKeyName)
-      val value = getCol(cols, reduceColName).toInt
+      val key = HelperFunctions.getCol(cols, dtKeyName, schemaMap)
+      val value = HelperFunctions.getCol(cols, reduceColName, schemaMap).toInt
       val opList = if (mapOp.contains(key)) {
         value :: mapOp(key)
       } else List(value)

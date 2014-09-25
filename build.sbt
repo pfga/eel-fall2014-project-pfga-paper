@@ -29,3 +29,5 @@ libraryDependencies ++= Seq(
   "xmlenc" % "xmlenc" % "0.52",
   "org.apache.hadoop" % "hadoop-core" % "0.20.2",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test")
+
+instrumentSettings
