@@ -8,6 +8,5 @@ object ConfigKeyNames {
   val loadDate = "load-date"
   val reduceColumn = "reduce-column"
   val delimiterStr = "delimiter"
-
-
+  val reduceAction = "reduce-action"
 }
