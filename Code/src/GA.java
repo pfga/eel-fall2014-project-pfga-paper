@@ -1,6 +1,6 @@
 public class GA {
 
-//Sample Commit
+//Test Commit
     public static void main(String[] args) {
 
         // Set a candidate solution
