@@ -1,5 +1,6 @@
 package Parser
 
+import ParserUtils.SchemaValidator
 import org.scalatest.FlatSpec
 import scala.collection.Set
 

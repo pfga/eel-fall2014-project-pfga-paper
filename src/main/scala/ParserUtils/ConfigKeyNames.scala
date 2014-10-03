@@ -1,4 +1,4 @@
-package Parser
+package ParserUtils
 
 /**
  * Created by preethu on 9/22/14.

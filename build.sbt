@@ -6,8 +6,7 @@ scalaVersion := "2.10.4"
 
 resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
   Resolver.sonatypeRepo("snaspshots"),
-  "mvn" at "http://repo1.maven.org/maven2/",
-  "cloudera" at "https://repository.cloudera.com/content/repositories/releases")
+  "mvn" at "http://repo1.maven.org/maven2/")
 
 libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "18.0-rc2",
@@ -27,7 +26,10 @@ libraryDependencies ++= Seq(
   "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.13",
   "tomcat" % "jasper-runtime" % "5.5.23",
   "xmlenc" % "xmlenc" % "0.52",
-  "org.apache.hadoop" % "hadoop-core" % "0.20.2",
+  "org.apache.hadoop" % "hadoop-core" % "1.2.1",
+  "org.apache.mrunit" % "mrunit" % "1.1.0" classifier "hadoop1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test")
 
 instrumentSettings
+
+ScoverageKeys.excludedPackages in ScoverageCompile := ".*MRDriver"

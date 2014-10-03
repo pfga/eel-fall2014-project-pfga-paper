@@ -1,7 +1,7 @@
-package Parser
+package ParserUtils
 
+import ParserUtils.ConfigKeyNames._
 import org.apache.commons.configuration.PropertiesConfiguration
-import Parser.ConfigKeyNames._
 
 /**
  * Created by preethu on 9/22/14.
