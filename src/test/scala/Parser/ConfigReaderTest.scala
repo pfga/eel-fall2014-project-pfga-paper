@@ -1,5 +1,6 @@
 package Parser
 
+import ParserUtils.{ConfigReader, ConfigKeyNames}
 import org.apache.commons.configuration.PropertiesConfiguration
 import org.scalatest.FlatSpec
 import ConfigKeyNames._

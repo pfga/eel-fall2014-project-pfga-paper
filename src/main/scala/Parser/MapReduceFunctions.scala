@@ -1,8 +1,10 @@
 package Parser
 
+import ParserUtils.{ConfigReader, ConfigKeyNames}
+
 import scala.collection.JavaConversions._
 import HelperUtils.HelperFunctions
-import Parser.ConfigKeyNames._
+import ConfigKeyNames._
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 
 /**
@@ -18,20 +20,28 @@ class MapReduceFunctions(configFileName: String) {
   lazy val delimiter = config.getString(delimiterStr)
   lazy val schemaMap = HelperFunctions.schemaMap(schemaArr)
 
-  def mapLine(line: T) = {
+  def mapRawLine(line: T) = {
     val cols = line.toString.split(delimiter, -1)
-
     (HelperFunctions.getCol(cols, dtKeyName, schemaMap),
       HelperFunctions.getCol(cols, reduceColName, schemaMap).toLong)
   }
 
-  def reduceLine(values: java.lang.Iterable[LW]) = {
-
+  def reduceRawLine(values: java.lang.Iterable[LW],
+                    currRedAct: String = reduceAct) = {
     values.foldLeft(0: Long) { (redOp, value) =>
       reduceAct match {
+        case "min" => val v = value.get()
+          if (redOp > v) v else redOp
+        case "max" => val v = value.get()
+          if (redOp < v) v else redOp
         case "sum" => redOp + value.get
         case _ => redOp
       }
     }
+  }
+
+  def mapFTSIp(line: T) = {
+    val cols = line.toString.split("\t", -1)
+    (cols(0), cols(1).toLong)
   }
 }
