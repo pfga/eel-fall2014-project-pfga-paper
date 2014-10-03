@@ -28,16 +28,21 @@ class MapReduceFunctions(configFileName: String) {
 
   def reduceRawLine(values: java.lang.Iterable[LW],
                     currRedAct: String = reduceAct) = {
-    values.foldLeft(0: Long) { (redOp, value) =>
-      reduceAct match {
-        case "min" => val v = value.get()
-          if (redOp > v) v else redOp
-        case "max" => val v = value.get()
-          if (redOp < v) v else redOp
-        case "sum" => redOp + value.get
-        case _ => redOp
+    values.foldLeft((0: Long, true)) { (opCols, value) =>
+      val v = value.get()
+      val (redOp, firstBool) = opCols
+      val newRedOp = if (firstBool) {
+        v
+      } else {
+        reduceAct match {
+          case "min" => if (redOp < v) v else redOp
+          case "max" => if (redOp > v) v else redOp
+          case "sum" => redOp + v
+          case _ => redOp
+        }
       }
-    }
+      (newRedOp, false)
+    }._1
   }
 
   def mapFTSIp(line: T) = {

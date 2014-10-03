@@ -1,6 +1,6 @@
 package Parser.InputDataParser
 
-object DataParserMR {
+object DataParserMRDriver {
   def driver(): Unit = {
   }
 }

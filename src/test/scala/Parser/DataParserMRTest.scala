@@ -6,7 +6,7 @@ import org.apache.hadoop.mrunit.mapreduce.{MapDriver, ReduceDriver}
 import org.scalatest.FlatSpec
 
 /**
- * Created by preethu19th on 10/2/14.
+ * Created by preethu on 10/2/14.
  */
 class DataParserMRTest extends FlatSpec {
 
