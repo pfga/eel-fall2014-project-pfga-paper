@@ -11,7 +11,7 @@ class FTSDataPrepareReducer extends Reducer[T, LW, T, LW] {
   var mapRedFunc: MapReduceFunctions = _
 
   override def setup(conT: Reducer[T, LW, T, LW]#Context) = {
-    mapRedFunc = new MapReduceFunctions("")
+    mapRedFunc = new MapReduceFunctions(conT.getConfiguration)
   }
 
   override def reduce(key: T, values: java.lang.Iterable[LW],

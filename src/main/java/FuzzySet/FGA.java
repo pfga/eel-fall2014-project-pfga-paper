@@ -1,8 +1,6 @@
 package FuzzySet;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,7 +12,7 @@ public class FGA {
     static List<FGPopulation> popList = new ArrayList<FGPopulation>();
 
 
-    public static void main(String[] args) {
+    public static void run(List<AnnualRecord> annualRecords) {
 
         int gen = 1;
         //The aregument comprises of the population, order, number of Genes
@@ -24,7 +22,7 @@ public class FGA {
         FGPopulation tfgp = new FGPopulation(30, 3, 7, lowerLimit, upperLimit);
         FGIndividual[] individuals;
         while (gen <= 100) {
-            fgp.computePopulation();
+            fgp.computePopulation(annualRecords);
             fgp.sortPopulation();
             System.out.println("Generation : " + gen + " ==> " + fgp.getFittest());
             genMap.put("Generation : " + gen, fgp.getFittest());

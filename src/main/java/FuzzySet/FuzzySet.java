@@ -14,25 +14,19 @@ public class FuzzySet {
     public static HashMap<String, Integer> discourseMap = new HashMap<String, Integer>();
     private int order;
 
-    public FuzzySet(int chromosome[], int order) {
+    public FuzzySet(int chromosome[], int order, List<AnnualRecord> incAnnualRecords) {
+        FuzzySet.annualRecords = incAnnualRecords;
         FuzzySet.chromosome = chromosome;
         this.order = order;
         arMap = new HashMap<String, String>();
         discourseMap = new HashMap<String, Integer>();
         //iniatializeAnnualRecord();
-        initializeData();
         initializeFuzzySet();
         initializeFLRG(order);
         initializeFLRGMap();
         initializeDiscourseMap();
     }
 
-
-    public static void initializeData() {
-
-
-        */
-    }
 
     public static void initializeFuzzySet() {
 
@@ -43,7 +37,7 @@ public class FuzzySet {
         }
 
 		/*System.out.println();
-		for (AnnualRecord rec : annualRecords) {
+        for (AnnualRecord rec : annualRecords) {
 
 			System.out.println(rec.getYear() + "=>" + rec.getFuzzySet());
 		}*/

@@ -10,9 +10,7 @@ class DataParserReducer extends Reducer[T, LW, T, LW] with CommonMR {
 
   override def setup(conT: Reducer[T, LW, T, LW]#Context) = {
     val conf = conT.getConfiguration
-    val cacheFiles = DistributedCache.getLocalCacheFiles(conf)
-    val configFile = cacheFiles(0).toString
-    mapRedFunc = new MapReduceFunctions(configFile)
+    mapRedFunc = new MapReduceFunctions(conf)
   }
 
   override def reduce(key: T, values: java.lang.Iterable[LW],

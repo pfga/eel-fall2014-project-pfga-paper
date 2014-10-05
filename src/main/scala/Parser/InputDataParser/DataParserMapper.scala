@@ -1,7 +1,6 @@
 package Parser.InputDataParser
 
 import Parser.MapReduceFunctions
-import org.apache.hadoop.filecache.DistributedCache
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Mapper
 
@@ -14,9 +13,7 @@ class DataParserMapper extends Mapper[LW, T, T, LW] {
 
   override def setup(conT: Mapper[LW, T, T, LW]#Context) = {
     val conf = conT.getConfiguration
-    val cacheFiles = DistributedCache.getLocalCacheFiles(conf)
-    val configFile = cacheFiles(0).toString
-    mapRedFunc = new MapReduceFunctions(configFile)
+    mapRedFunc = new MapReduceFunctions(conf)
   }
 
   override def map(key: LW, value: T,

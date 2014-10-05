@@ -1,3 +1,13 @@
+import AssemblyKeys._
+
+assemblySettings
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) => {
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+}
+
 name := "eel-fall2014-project"
 
 version := "1.0"
@@ -26,7 +36,7 @@ libraryDependencies ++= Seq(
   "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.13",
   "tomcat" % "jasper-runtime" % "5.5.23",
   "xmlenc" % "xmlenc" % "0.52",
-  "org.apache.hadoop" % "hadoop-core" % "1.2.1",
+  "org.apache.hadoop" % "hadoop-core" % "1.1.2",
   "org.apache.mrunit" % "mrunit" % "1.1.0" classifier "hadoop1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test")
 

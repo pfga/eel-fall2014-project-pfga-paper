@@ -12,12 +12,13 @@ class FTSDataPrepareMapper extends Mapper[LW, T, T, LW] with CommonMR {
   var mapRedFunc: MapReduceFunctions = _
 
   override def setup(conT: Mapper[LW, T, T, LW]#Context) = {
-    mapRedFunc = new MapReduceFunctions("")
+    mapRedFunc = new MapReduceFunctions(conT.getConfiguration)
   }
 
   override def map(key: LW, value: T,
                    conT: Mapper[LW, T, T, LW]#Context) = {
     val (mapOpKey, mapOpVal) = mapRedFunc.mapFTSIp(value)
+    checkMinMax(mapOpVal)
     conT.write(new T(mapOpKey), new LW(mapOpVal))
   }
 
