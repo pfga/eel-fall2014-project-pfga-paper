@@ -7,13 +7,13 @@ import java.util.*;
 
 public class FGA {
 
-    private static int lowerLimit = 13000;
-    private static int upperLimit = 20000;
+    //    private static int lowerLimit = 13000;
+//    private static int upperLimit = 20000;
     static List<FGPopulation> popList = new ArrayList<FGPopulation>();
 
 
-    public static void run(List<AnnualRecord> annualRecords) {
-
+    public static void run(List<AnnualRecord> annualRecords,
+                           int lowerLimit, int upperLimit) {
         int gen = 1;
         //The aregument comprises of the population, order, number of Genes
         FGPopulation fgp = new FGPopulation(30, 3, 7, lowerLimit, upperLimit);
