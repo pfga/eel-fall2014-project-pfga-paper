@@ -9,36 +9,36 @@ public class FGA {
 
     //    private static int lowerLimit = 13000;
 //    private static int upperLimit = 20000;
-    static List<FGPopulation> popList = new ArrayList<FGPopulation>();
+//    static List<FGPopulation> popList = new ArrayList<FGPopulation>();
 
 
     public static void run(List<AnnualRecord> annualRecords,
-                           int lowerLimit, int upperLimit) {
+                           int lowerLimit, int upperLimit, int intervals) {
         int gen = 1;
-        //The aregument comprises of the population, order, number of Genes
-        FGPopulation fgp = new FGPopulation(30, 3, 7, lowerLimit, upperLimit);
+        //The argument comprises of the population, order, number of Genes
+        FGPopulation fgp = new FGPopulation(1, 10, intervals, lowerLimit, upperLimit);
         fgp.generatePopulation();
+//        fgp.displayPopulation();
         Map<String, Double> genMap = new LinkedHashMap<String, Double>();
-        FGPopulation tfgp = new FGPopulation(30, 3, 7, lowerLimit, upperLimit);
-        FGIndividual[] individuals;
+//        FGPopulation tfgp = new FGPopulation(30, 3, 7, lowerLimit, upperLimit);
         while (gen <= 100) {
             fgp.computePopulation(annualRecords);
             fgp.sortPopulation();
             System.out.println("Generation : " + gen + " ==> " + fgp.getFittest());
             genMap.put("Generation : " + gen, fgp.getFittest());
             //tfgp = (FGPopulation) fgp.clone();
-            popList.add(tfgp);
+//            popList.add(tfgp);
             fgp.evolvePopulation();
             gen++;
         }
-    /*	//Generation Results
+    /*
+        //Generation Results
           Iterator it = genMap.entrySet().iterator();
 		    while (it.hasNext()) {
 		        Map.Entry pairs = (Map.Entry)it.next();
 		        System.out.println(pairs.getKey() + " = > " + pairs.getValue());
 		        it.remove(); // avoids a ConcurrentModificationException
 		    }
-		    */
         String uploadPath = "/home/ankit/studies/uf/first_sem/cloud_computing/Main_Project/eel-fall2014-project-pfga/results";
         String time =
                 new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
@@ -69,6 +69,7 @@ public class FGA {
             writer.flush();
         }
 
+		    */
 
     }
 }

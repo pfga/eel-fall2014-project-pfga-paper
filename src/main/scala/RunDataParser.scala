@@ -45,7 +45,10 @@ object RunDataParser extends App {
     //  FTSDataPrepareMRDriver.run(conf, parseData, new Path(ftsIp))
   */
 
-  val (annualRecords, min, max) = HelperUtils.HelperFunctions
-    .readReduceOp(conf, "op" + ftsIpPath + reducePartFileName)
-  FGA.run(annualRecords.asJava, 400, 1200)
+
+  val (annualRecords, min, max, intervals) = HelperUtils.HelperFunctions
+    .readReduceOp(new Configuration(), "src/main/resources/input_fts_2.txt")
+
+  println(min + "_" + max + "_" + intervals)
+  FGA.run(annualRecords.asJava, min, max, intervals)
 }

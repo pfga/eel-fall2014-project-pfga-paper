@@ -38,14 +38,14 @@ public class FGPopulation implements Cloneable {
     }
 
 
-    public void setIndividuals(FGIndividual[] individuals) {
-        this.individuals = individuals;
-    }
+//    public void setIndividuals(FGIndividual[] individuals) {
+//        this.individuals = individuals;
+//    }
 
 
     public void generatePopulation() {
 
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < individuals.length; i++) {
             FGIndividual fi = new FGIndividual(ll, ul, noOfGenes + 1);
             saveIndividual(i, fi);
         }
@@ -57,11 +57,6 @@ public class FGPopulation implements Cloneable {
             FuzzySet fs = new FuzzySet(fi.getGenes(), order, annualRecords);
             fi.setMse(fs.computeForcastedValue());
         }
-    }
-
-
-    public int size() {
-        return individuals.length;
     }
 
     // Save individual
@@ -106,7 +101,7 @@ public class FGPopulation implements Cloneable {
     public void generateNewIndividuals() {
         //displayPopulation();
         /*int startIndex= (int) Math.round(this.individuals.length * oldPopulationRatio);
-		for(int i=startIndex +1 ; i<individuals.length ; i++){
+        for(int i=startIndex +1 ; i<individuals.length ; i++){
 			individuals[i] = new FGIndividual(ll, ul, noOfGenes + 1);
 			
 		}*/
