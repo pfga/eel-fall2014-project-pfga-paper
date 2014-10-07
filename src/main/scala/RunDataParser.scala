@@ -50,5 +50,5 @@ object RunDataParser extends App {
     .readReduceOp(new Configuration(), "src/main/resources/input_fts_2.txt")
 
   println(min + "_" + max + "_" + intervals)
-  FGA.run(annualRecords.asJava, min, max, intervals)
+//  FGA.run(annualRecords.asJava, min, max, intervals)
 }

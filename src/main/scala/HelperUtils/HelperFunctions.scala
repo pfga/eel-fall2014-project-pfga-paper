@@ -11,7 +11,7 @@ object HelperFunctions extends App {
    * Convert schema into a Map which will provide index based on column name
    *
    * @param schemaArr
-   * @return
+   * @return schemaMap: Map[String,Int]
    */
   def schemaMap(schemaArr: Array[String]) = {
     schemaArr.foldLeft((Map[String, Int](), 0)) {
@@ -29,7 +29,7 @@ object HelperFunctions extends App {
    * @param cols
    * @param colName
    * @param schemaMap
-   * @return
+   * @return colVal:String
    */
 
   def getCol(cols: Array[String], colName: String,
@@ -43,7 +43,7 @@ object HelperFunctions extends App {
    *
    * @param conf
    * @param opStr
-   * @return
+   * @return (annualRecords:List[AnnualRecords],min:Int,max:Int,intervals:Int)
    */
   def readReduceOp(conf: Configuration, opStr: String) = {
     var avgDist = Map[String, Int]()
@@ -73,20 +73,20 @@ object HelperFunctions extends App {
     }
 
 
-    val (retmin, retmax, intervals) = getBase(avgDist, min, max)
+    val (retmin, retmax, intervals) = getRoundedIntervalMinMax(avgDist, min, max)
     (listLines, retmin, retmax, intervals)
   }
 
   /**
-   * http://ac.els-cdn.com/S0165011400000579/1-s2.0-S0165011400000579-main.pdf?_tid=e649e7a8-4e33-11e4-9fbb-00000aab0f02&acdnat=1412694734_7320bf9dff0e8d79fc8c6253f8210bf2
+   * http://www.sciencedirect.com/science/article/pii/S0165011400000579
    * Using average distance from above paper to find intervals
    *
    * @param avgDist
    * @param ipMin
    * @param ipMax
-   * @return
+   * @return (min:Int,max:Int,intervals:Int)
    */
-  def getBase(avgDist: Map[String, Int], ipMin: Int, ipMax: Int) = {
+  def getRoundedIntervalMinMax(avgDist: Map[String, Int], ipMin: Int, ipMax: Int) = {
     val dflVal = (0, 0, "")
 
     val (sumDiff, cntDiff, prevKey) = avgDist.keys
@@ -100,21 +100,29 @@ object HelperFunctions extends App {
       }
     }
 
-
     var (avg, min, max) = ((sumDiff / cntDiff / 2), ipMin, ipMax)
-    var redAvg = avg
-    var base = 0.1
-
-    redAvg = redAvg - 1
-
-    while (redAvg > 0) {
-      redAvg = redAvg / 10
-      base = base * 10
-    }
+    val base = getBase(avg)
 
     while (avg % base != 0) avg = avg - 1
     while (min % base != 0) min = min - 1
     while (max % base != 0) max = max + 1
     (min, max, avg)
+  }
+
+  /**
+   * Find base using half of average
+   *
+   * @param avg
+   * @return base:Int
+   */
+  def getBase(avg: Int) = {
+    var redAvg = avg - 1
+    var base = 0.1
+
+    while (redAvg > 0) {
+      redAvg = redAvg / 10
+      base = base * 10
+    }
+    base
   }
 }
