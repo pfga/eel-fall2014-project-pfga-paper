@@ -1,6 +1,6 @@
 package Parser.InputDataParser
 
-import Parser.MapReduceFunctions
+import MapReduceJobs.MapReduceFunctions
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Mapper
 

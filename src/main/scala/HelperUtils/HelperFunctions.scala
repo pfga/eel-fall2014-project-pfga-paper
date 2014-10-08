@@ -100,22 +100,34 @@ object HelperFunctions extends App {
       }
     }
 
-    var (avg, min, max) = ((sumDiff / cntDiff / 2), ipMin, ipMax)
-    val base = getBase(avg)
+    val avgVal = (sumDiff / cntDiff / 2)
+    val base = getBase(avgVal)
 
-    while (avg % base != 0) avg = avg - 1
-    while (min % base != 0) min = min - 1
-    while (max % base != 0) max = max + 1
+    val avg = getRoundedToBase(avgVal, -1, base)
+    val min = getRoundedToBase(ipMin, -1, base)
+    val max = getRoundedToBase(ipMax, 1, base)
+
     (min, max, avg)
+  }
+
+  /**
+   *
+   * @param value
+   * @param addVal
+   */
+  def getRoundedToBase(value: Int, addVal: Int, base: Double) = {
+    var rndVal = value
+    while (rndVal % base != 0) rndVal = rndVal + addVal
+    rndVal
   }
 
   /**
    * Find base using half of average
    *
    * @param avg
-   * @return base:Int
+   * @return base:Double
    */
-  def getBase(avg: Int) = {
+  def getBase(avg: Int): Double = {
     var redAvg = avg - 1
     var base = 0.1
 

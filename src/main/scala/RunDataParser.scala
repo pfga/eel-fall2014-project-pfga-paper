@@ -47,8 +47,8 @@ object RunDataParser extends App {
 
 
   val (annualRecords, min, max, intervals) = HelperUtils.HelperFunctions
-    .readReduceOp(new Configuration(), "src/main/resources/input_fts_2.txt")
+    .readReduceOp(new Configuration(), "src/main/resources/input_fts_1.txt")
 
   println(min + "_" + max + "_" + intervals)
-//  FGA.run(annualRecords.asJava, min, max, intervals)
+  FGA.run(5000, annualRecords.asJava, min, max, max-min)
 }

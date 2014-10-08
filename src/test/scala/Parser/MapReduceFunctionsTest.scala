@@ -1,5 +1,6 @@
 package Parser
 
+import MapReduceJobs.MapReduceFunctions
 import org.apache.hadoop.conf.Configuration
 import org.scalatest.FlatSpec
 

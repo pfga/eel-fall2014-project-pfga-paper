@@ -1,6 +1,7 @@
 package Parser.InputDataParser
 
-import Parser.{CommonMR, MapReduceFunctions}
+import MapReduceJobs.MapReduceFunctions
+import Parser.CommonMR
 import org.apache.hadoop.filecache.DistributedCache
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Reducer

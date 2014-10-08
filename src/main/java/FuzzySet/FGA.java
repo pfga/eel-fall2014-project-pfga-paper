@@ -12,25 +12,26 @@ public class FGA {
 //    static List<FGPopulation> popList = new ArrayList<FGPopulation>();
 
 
-    public static void run(List<AnnualRecord> annualRecords,
+    public static void run(int popCnt, List<AnnualRecord> annualRecords,
                            int lowerLimit, int upperLimit, int intervals) {
         int gen = 1;
+        Long startTime = System.nanoTime();
         //The argument comprises of the population, order, number of Genes
-        FGPopulation fgp = new FGPopulation(1, 10, intervals, lowerLimit, upperLimit);
+        FGPopulation fgp = new FGPopulation(popCnt, 3, intervals, lowerLimit, upperLimit);
         fgp.generatePopulation();
 //        fgp.displayPopulation();
-        Map<String, Double> genMap = new LinkedHashMap<String, Double>();
 //        FGPopulation tfgp = new FGPopulation(30, 3, 7, lowerLimit, upperLimit);
         while (gen <= 100) {
             fgp.computePopulation(annualRecords);
             fgp.sortPopulation();
-            System.out.println("Generation : " + gen + " ==> " + fgp.getFittest());
-            genMap.put("Generation : " + gen, fgp.getFittest());
+            System.out.println("Generation : " + gen + " ==> " + fgp.getFittest().getMse());
             //tfgp = (FGPopulation) fgp.clone();
 //            popList.add(tfgp);
             fgp.evolvePopulation();
             gen++;
         }
+        Long stopTime = System.nanoTime();
+        System.out.println((stopTime - startTime) / 1000000);
     /*
         //Generation Results
           Iterator it = genMap.entrySet().iterator();

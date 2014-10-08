@@ -80,22 +80,20 @@ public class FGPopulation implements Cloneable {
         Arrays.sort(this.individuals, new FGIndividualComparator());
     }
 
-    public double getFittest() {
-
-        double d = individuals[0].getMse();
+    public FGIndividual getFittest() {
+        FGIndividual d = individuals[0];
         for (int i = 1; i < individuals.length; i++) {
-            if (individuals[i].getMse() < d)
-                d = individuals[i].getMse();
+            if (individuals[i].getMse() < d.getMse())
+                d = individuals[i];
         }
         return d;
     }
 
     public void evolvePopulation() {
-
         generateNewIndividuals();
         performCrossOver();
         performMutation();
-        //nullifyMSE();
+//        nullifyMSE();
     }
 
     public void generateNewIndividuals() {
@@ -118,7 +116,7 @@ public class FGPopulation implements Cloneable {
         int upperL = individuals.length - 1;
         int index1 = lowerL + (int) (Math.random() * ((upperL - lowerL) + 1));
         int index2 = lowerL + (int) (Math.random() * ((upperL - lowerL) + 1));
-		/*System.out.println("index selected 1: "+ index1+  " => "+individuals[index1].getMse());
+        /*System.out.println("index selected 1: "+ index1+  " => "+individuals[index1].getMse());
 		System.out.println("index selected 2: "+ index2+  " => "+individuals[index2].getMse());*/
         if (individuals[index1].getMse() < individuals[index2].getMse())
             return individuals[index1];
@@ -128,7 +126,7 @@ public class FGPopulation implements Cloneable {
 
 
     public void performCrossOver() {
-        int lowerL = 0;
+        int lowerL = individuals.length / 2 + 1;
         int upperL = individuals.length - 1;
         int crossOverCount = (int) Math.round(this.individuals.length * crossOverPopulationRatio);
         int index1, index2, t;
@@ -172,22 +170,16 @@ public class FGPopulation implements Cloneable {
 
     public Object clone() {
         // deep copy
-
         FGPopulation fg = new FGPopulation(this.getIndividuals());
         return fg;
-
     }
 
     public FGPopulation(FGIndividual[] inds) {
-
         individuals = new FGIndividual[inds.length];
         int i = 0;
         for (FGIndividual fi : inds) {
             individuals[i] = (FGIndividual) fi.clone();
             i++;
         }
-
     }
-
-
 }

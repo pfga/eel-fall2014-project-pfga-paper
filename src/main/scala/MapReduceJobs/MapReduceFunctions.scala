@@ -1,12 +1,11 @@
-package Parser
+package MapReduceJobs
 
-import ParserUtils.ConfigKeyNames._
-import ParserUtils.{ConfigReader, ConfigKeyNames}
+import HelperUtils.HelperFunctions
+import Parser.ParserUtils.ConfigKeyNames._
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 
 import scala.collection.JavaConversions._
-import HelperUtils.HelperFunctions
-import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 
 /**
  * Created by preethu19th on 9/25/14.
