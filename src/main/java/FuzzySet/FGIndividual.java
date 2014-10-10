@@ -2,6 +2,11 @@ package FuzzySet;
 
 import java.util.Arrays;
 
+/**
+ * This DS is an individual in the population.
+ * @author ankit
+ *
+ */
 public class FGIndividual implements Cloneable{
 
 	private int[] genes;

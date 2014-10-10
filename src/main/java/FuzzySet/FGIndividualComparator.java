@@ -2,6 +2,11 @@ package FuzzySet;
 
 import java.util.Comparator;
 
+/**
+ * Comparator file to compare the fitness value of the individuals.
+ * @author ankit
+ *
+ */
 public class FGIndividualComparator  implements Comparator<FGIndividual>{
 
 	@Override

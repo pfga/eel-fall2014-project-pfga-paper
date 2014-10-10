@@ -3,6 +3,12 @@ package FuzzySet;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class stores the population of Genetic Algorithm.
+ * 
+ * @author ankit
+ *
+ */
 public class FGPopulation implements Cloneable {
 
     FGIndividual individuals[];
@@ -20,6 +26,14 @@ public class FGPopulation implements Cloneable {
     public final static double mutationPopulationRatio = 0.05;
     public static int mutationPoint = 3;
 
+    /**
+     * Constructor to initialize the population.
+     * @param pop
+     * @param order
+     * @param noOfGenes
+     * @param ll
+     * @param ul
+     */
     public FGPopulation(int pop, int order, int noOfGenes, int ll, int ul) {
         individuals = new FGIndividual[pop];
         this.order = order;
@@ -28,29 +42,21 @@ public class FGPopulation implements Cloneable {
         this.ul = ul;
     }
 
-    public FGPopulation() {
-
-    }
-
-
-    public FGIndividual[] getIndividuals() {
-        return individuals;
-    }
-
-
-//    public void setIndividuals(FGIndividual[] individuals) {
-//        this.individuals = individuals;
-//    }
-
-
+    /**
+     * This method is used to generate the initial population for GA.
+     */
     public void generatePopulation() {
-
         for (int i = 0; i < individuals.length; i++) {
             FGIndividual fi = new FGIndividual(ll, ul, noOfGenes + 1);
             saveIndividual(i, fi);
         }
     }
 
+    /**
+     * This method computes the MSE for the Input Annual Records.
+     * 
+     * @param annualRecords
+     */
     public void computePopulation(List<AnnualRecord> annualRecords) {
 
         for (FGIndividual fi : individuals) {
@@ -59,13 +65,20 @@ public class FGPopulation implements Cloneable {
         }
     }
 
-    // Save individual
+   
+    /**
+     * This method stores the individual at a particular index.
+     * @param index
+     * @param indiv
+     */
     public void saveIndividual(int index, FGIndividual indiv) {
         individuals[index] = indiv;
     }
 
+    /**
+     * This method displays the entire population.
+     */
     public void displayPopulation() {
-
         for (FGIndividual fi : this.getIndividuals()) {
             for (int i : fi.getGenes()) {
                 System.out.print(i + "\t");
@@ -75,8 +88,10 @@ public class FGPopulation implements Cloneable {
         }
     }
 
+    /**
+     * This method sorts the entire population based on the defined comparator.
+     */
     public void sortPopulation() {
-
         Arrays.sort(this.individuals, new FGIndividualComparator());
     }
 
@@ -89,35 +104,35 @@ public class FGPopulation implements Cloneable {
         return d;
     }
 
+    /**
+     * This is the driver method to perform the GA operations.
+     */
     public void evolvePopulation() {
         generateNewIndividuals();
         performCrossOver();
         performMutation();
-//        nullifyMSE();
     }
 
+    /**
+     * This method is used in the selection process of GA.
+     */
     public void generateNewIndividuals() {
-        //displayPopulation();
-        /*int startIndex= (int) Math.round(this.individuals.length * oldPopulationRatio);
-        for(int i=startIndex +1 ; i<individuals.length ; i++){
-			individuals[i] = new FGIndividual(ll, ul, noOfGenes + 1);
-			
-		}*/
         int startIndex = (int) Math.round(this.individuals.length * oldPopulationRatio);
         for (int i = startIndex + 1; i < individuals.length; i++) {
             individuals[i] = getRandomBestIndiv();
-
         }
-
     }
 
+    /**
+     * This method returns the best individual.
+     * 
+     * @return
+     */
     private FGIndividual getRandomBestIndiv() {
         int lowerL = 0;
         int upperL = individuals.length - 1;
         int index1 = lowerL + (int) (Math.random() * ((upperL - lowerL) + 1));
         int index2 = lowerL + (int) (Math.random() * ((upperL - lowerL) + 1));
-        /*System.out.println("index selected 1: "+ index1+  " => "+individuals[index1].getMse());
-		System.out.println("index selected 2: "+ index2+  " => "+individuals[index2].getMse());*/
         if (individuals[index1].getMse() < individuals[index2].getMse())
             return individuals[index1];
         else
@@ -125,6 +140,9 @@ public class FGPopulation implements Cloneable {
     }
 
 
+    /**
+     * This method is used in the cross-over process of GA.
+     */
     public void performCrossOver() {
         int lowerL = individuals.length / 2 + 1;
         int upperL = individuals.length - 1;
@@ -152,6 +170,9 @@ public class FGPopulation implements Cloneable {
         }
     }
 
+    /**
+     * This method is used in the mutation process of GA.
+     */
     public void performMutation() {
         int lowerL = individuals.length / 2;
         int upperL = individuals.length - 1;
@@ -160,7 +181,6 @@ public class FGPopulation implements Cloneable {
 
         while (mutationCount >= 1) {
             index1 = lowerL + (int) (Math.random() * ((upperL - lowerL) + 1));
-            //System.out.println("Index Mutated:"+index1);
             lowerVal = individuals[index1].getGenes()[mutationPoint - 1];
             upperVal = individuals[index1].getGenes()[mutationPoint + 1];
             individuals[index1].getGenes()[mutationPoint] = (lowerVal + upperVal) / 2;
@@ -169,7 +189,6 @@ public class FGPopulation implements Cloneable {
     }
 
     public Object clone() {
-        // deep copy
         FGPopulation fg = new FGPopulation(this.getIndividuals());
         return fg;
     }
@@ -181,5 +200,9 @@ public class FGPopulation implements Cloneable {
             individuals[i] = (FGIndividual) fi.clone();
             i++;
         }
+    }
+    
+    public FGIndividual[] getIndividuals() {
+        return individuals;
     }
 }
