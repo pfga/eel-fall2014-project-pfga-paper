@@ -1,6 +1,6 @@
 package Parser.InputDataParser
 
-import MapReduceJobs.MapReduceFunctions
+import Parser.ParseFunctions
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Mapper
 
@@ -9,11 +9,11 @@ import org.apache.hadoop.mapreduce.Mapper
  */
 
 class DataParserMapper extends Mapper[LW, T, T, LW] {
-  var mapRedFunc: MapReduceFunctions = _
+  var mapRedFunc: ParseFunctions = _
 
   override def setup(conT: Mapper[LW, T, T, LW]#Context) = {
     val conf = conT.getConfiguration
-    mapRedFunc = new MapReduceFunctions(conf)
+    mapRedFunc = new ParseFunctions(conf)
   }
 
   override def map(key: LW, value: T,

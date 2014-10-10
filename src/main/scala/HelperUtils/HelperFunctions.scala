@@ -6,7 +6,7 @@ import FuzzySet.AnnualRecord
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
 
-object HelperFunctions extends App {
+object HelperFunctions {
   /**
    * Convert schema into a Map which will provide index based on column name
    *
@@ -103,9 +103,10 @@ object HelperFunctions extends App {
     val avgVal = (sumDiff / cntDiff / 2)
     val base = getBase(avgVal)
 
-    val avg = getRoundedToBase(avgVal, -1, base)
-    val min = getRoundedToBase(ipMin, -1, base)
-    val max = getRoundedToBase(ipMax, 1, base)
+    val avg = getRoundedToBase(avgVal, -1)
+    val min = getRoundedToBase(ipMin, -1)
+    val max = getRoundedToBase(ipMax, 1)
+    println(base, ipMin, ipMax, min, max)
 
     (min, max, avg)
   }
@@ -115,7 +116,8 @@ object HelperFunctions extends App {
    * @param value
    * @param addVal
    */
-  def getRoundedToBase(value: Int, addVal: Int, base: Double) = {
+  def getRoundedToBase(value: Int, addVal: Int) = {
+    val base = getBase(value)
     var rndVal = value
     while (rndVal % base != 0) rndVal = rndVal + addVal
     rndVal

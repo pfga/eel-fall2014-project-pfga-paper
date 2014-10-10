@@ -9,4 +9,6 @@ object ConfigKeyNames {
   val reduceColumn = "reduce-column"
   val delimiterStr = "delimiter"
   val reduceAction = "reduce-action"
+  val ipDtFormatStr = "ipDtFormat"
+  val opDtFormatStr = "opDtFormat"
 }

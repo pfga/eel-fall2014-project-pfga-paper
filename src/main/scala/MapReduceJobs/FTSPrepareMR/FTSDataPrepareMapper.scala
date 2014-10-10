@@ -1,7 +1,7 @@
 package Parser.FTSPrepareMR
 
-import MapReduceJobs.MapReduceFunctions
-import Parser.CommonMR
+import MapReduceJobs.CommonMR
+import Parser.ParseFunctions
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Mapper
 
@@ -10,10 +10,10 @@ import org.apache.hadoop.mapreduce.Mapper
  */
 
 class FTSDataPrepareMapper extends Mapper[LW, T, T, LW] with CommonMR {
-  var mapRedFunc: MapReduceFunctions = _
+  var mapRedFunc: ParseFunctions = _
 
   override def setup(conT: Mapper[LW, T, T, LW]#Context) = {
-    mapRedFunc = new MapReduceFunctions(conT.getConfiguration)
+    mapRedFunc = new ParseFunctions(conT.getConfiguration)
   }
 
   override def map(key: LW, value: T,
@@ -24,7 +24,9 @@ class FTSDataPrepareMapper extends Mapper[LW, T, T, LW] with CommonMR {
   }
 
   override def cleanup(conT: Mapper[LW, T, T, LW]#Context) = {
-    conT.write(new T("min"), new LW(min))
-    conT.write(new T("max"), new LW(max))
+    if (!firstRedOp) {
+      conT.write(new T("min"), new LW(min))
+      conT.write(new T("max"), new LW(max))
+    }
   }
 }

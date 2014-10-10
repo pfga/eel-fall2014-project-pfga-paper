@@ -1,4 +1,4 @@
-package MapReduceJobs
+package Parser
 
 import HelperUtils.HelperFunctions
 import Parser.ParserUtils.ConfigKeyNames._
@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
 /**
  * Created by preethu19th on 9/25/14.
  */
-class MapReduceFunctions(conf: Configuration) {
+class ParseFunctions(conf: Configuration) {
 
   lazy val schemaArr = conf.get(schema).split(",")
   lazy val dtKeyName = conf.get(loadDate)
@@ -19,8 +19,8 @@ class MapReduceFunctions(conf: Configuration) {
   lazy val delimiter = conf.get(delimiterStr)
 
   lazy val schemaMap = HelperFunctions.schemaMap(schemaArr)
-  lazy val ipDtFormat = "yyyy-MM-dd"
-  lazy val opDtFormat = "yyyy"
+  lazy val ipDtFormat = conf.get(ipDtFormatStr)
+  lazy val opDtFormat = conf.get(opDtFormatStr)
 
   def dtFormatConvert(dateStr: String) = {
     val format = new java.text.SimpleDateFormat(ipDtFormat)
@@ -31,7 +31,6 @@ class MapReduceFunctions(conf: Configuration) {
 
   def mapRawLine(line: T) = {
     val cols = line.toString.split(delimiter, -1)
-    println(schemaArr.mkString(","))
     (dtFormatConvert(HelperFunctions.getCol(cols, dtKeyName, schemaMap)),
       HelperFunctions.getCol(cols, reduceColName, schemaMap).toLong)
   }

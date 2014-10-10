@@ -19,7 +19,7 @@ object DataParserMRDriver {
     job.setMapOutputValueClass(classOf[LW])
     job.setMapperClass(classOf[DataParserMapper])
     job.setReducerClass(classOf[DataParserReducer])
-    job.setNumReduceTasks(30)
+    job.setNumReduceTasks(31)
     job.setInputFormatClass(classOf[TextInputFormat])
     job.setOutputFormatClass(classOf[TextOutputFormat[T, LW]])
     job.setJarByClass(DataParserMRDriver.getClass)
