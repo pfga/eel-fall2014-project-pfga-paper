@@ -35,6 +35,6 @@ class HelperFunctionsTest extends FlatSpec {
 
   "HelperFunctions.getRoundedIntervalMinMax" should "returns min, max and interval" in {
     val testMap = Map("1970" -> 11, "1971" -> 22, "1972" -> 33)
-    assert((10, 40, 5) == HelperFunctions.getRoundedIntervalMinMax(testMap, 11, 33))
+    assert((10, 40, 6) == HelperFunctions.getRoundedIntervalMinMax(testMap, 11, 33))
   }
 }

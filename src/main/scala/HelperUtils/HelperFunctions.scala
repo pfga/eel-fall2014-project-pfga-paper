@@ -100,15 +100,16 @@ object HelperFunctions {
       }
     }
 
-    val avgVal = (sumDiff / cntDiff / 2)
-    val base = getBase(avgVal)
+    val intervalRange = (sumDiff / cntDiff / 2)
+    val base = getBase(intervalRange)
 
+    val roundedIntervalRange = getRoundedToBase(intervalRange, -1, base)
 
-    val min = getRoundedToBase(ipMin, -1, base)
-    val max = getRoundedToBase(ipMax, 1, base)
-    val avg = (max - min) / getRoundedToBase(avgVal, -1)
+    val min = getRoundedToBase(ipMin, -1)
+    val max = getRoundedToBase(ipMax, 1)
+    val numOfIntervals = (max - min) / roundedIntervalRange
 
-    (min, max, avg)
+    (min, max, numOfIntervals)
   }
 
   /**

@@ -10,7 +10,9 @@ import org.apache.hadoop.conf.Configuration
 object ConfigReader {
 
   def containsKey(config: PropertiesConfiguration, colName: String) = {
-    if (!config.containsKey(colName)) {
+    if (config.isEmpty) {
+      config
+    } else if (!config.containsKey(colName)) {
       println(s"'${colName}' property not found!")
       config.clear()
     }
