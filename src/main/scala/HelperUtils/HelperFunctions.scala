@@ -103,10 +103,10 @@ object HelperFunctions {
     val avgVal = (sumDiff / cntDiff / 2)
     val base = getBase(avgVal)
 
-    val avg = getRoundedToBase(avgVal, -1)
-    val min = getRoundedToBase(ipMin, -1)
-    val max = getRoundedToBase(ipMax, 1)
-    println(base, ipMin, ipMax, min, max)
+
+    val min = getRoundedToBase(ipMin, -1, base)
+    val max = getRoundedToBase(ipMax, 1, base)
+    val avg = (max - min) / getRoundedToBase(avgVal, -1)
 
     (min, max, avg)
   }
@@ -115,12 +115,24 @@ object HelperFunctions {
    *
    * @param value
    * @param addVal
+   * @param base
+   * @return
    */
-  def getRoundedToBase(value: Int, addVal: Int) = {
-    val base = getBase(value)
+  def getRoundedToBase(value: Int, addVal: Int, base: Double): Int = {
     var rndVal = value
     while (rndVal % base != 0) rndVal = rndVal + addVal
     rndVal
+  }
+
+  /**
+   *
+   * @param value
+   * @param addVal
+   * @return
+   */
+  def getRoundedToBase(value: Int, addVal: Int): Int = {
+    val base = getBase(value)
+    getRoundedToBase(value, addVal, base)
   }
 
   /**
