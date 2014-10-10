@@ -1,17 +1,17 @@
 package Parser.InputDataParser
 
-import MapReduceJobs.MapReduceFunctions
-import Parser.CommonMR
+import MapReduceJobs.CommonMR
+import Parser.ParseFunctions
 import org.apache.hadoop.filecache.DistributedCache
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Reducer
 
 class DataParserReducer extends Reducer[T, LW, T, LW] with CommonMR {
-  var mapRedFunc: MapReduceFunctions = _
+  var mapRedFunc: ParseFunctions = _
 
   override def setup(conT: Reducer[T, LW, T, LW]#Context) = {
     val conf = conT.getConfiguration
-    mapRedFunc = new MapReduceFunctions(conf)
+    mapRedFunc = new ParseFunctions(conf)
   }
 
   override def reduce(key: T, values: java.lang.Iterable[LW],
@@ -22,7 +22,9 @@ class DataParserReducer extends Reducer[T, LW, T, LW] with CommonMR {
   }
 
   override def cleanup(conT: Reducer[T, LW, T, LW]#Context) = {
-    conT.write(new T("min"), new LW(min))
-    conT.write(new T("max"), new LW(max))
+    if (!firstRedOp) {
+      conT.write(new T("min"), new LW(min))
+      conT.write(new T("max"), new LW(max))
+    }
   }
 }

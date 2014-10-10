@@ -1,4 +1,4 @@
-package Parser
+package MapReduceJobs
 
 /**
  * Created by preethu19th on 10/2/14.

@@ -1,6 +1,5 @@
 package Parser.InputDataParser
 
-import Parser.ParserUtils.ConfigKeyNames._
 import Parser.ParserUtils.ConfigReader
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
@@ -12,23 +11,8 @@ import org.scalatest.FlatSpec
  */
 class DataParserMRTest extends FlatSpec {
 
-  val conf = new Configuration()
-  val config = ConfigReader.getConfig("parse-config.properties")
-
-  val schemaArr = config.getStringArray(schema)
-  val dtKeyName = config.getString(loadDate)
-  val reduceColName = config.getString(reduceColumn)
-  val reduceAct = config.getString(reduceAction)
-  val delimiter = config.getString(delimiterStr)
-
-  println(schemaArr)
-  conf.set(schema,schemaArr.mkString(","))
-  conf.set(loadDate,dtKeyName)
-  conf.set(reduceColumn,reduceColName)
-  conf.set(reduceAction,reduceAct)
-  conf.set(delimiterStr,delimiter)
-
-  val mapper = new DataParserMapper
+  val conf: Configuration = ConfigReader.getConf("parse-config.properties")
+    val mapper = new DataParserMapper
   val mapDriver = MapDriver.newMapDriver(mapper)
   mapDriver.withConfiguration(conf)
 
@@ -45,7 +29,7 @@ class DataParserMRTest extends FlatSpec {
   }
 
   "DataParserReducer" should "produce appropriate output" in {
-    val values1: java.util.List[LW] = java.util.Arrays.asList(new LW(10),new LW(20),new LW(30))
+    val values1: java.util.List[LW] = java.util.Arrays.asList(new LW(10), new LW(20), new LW(30))
     val values2: java.util.List[LW] = java.util.Arrays.asList(new LW(10))
     val values3: java.util.List[LW] = java.util.Arrays.asList(new LW(70))
     redDriver.withInput(new T("2010-01-01"), values1)

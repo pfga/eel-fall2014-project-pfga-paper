@@ -1,6 +1,6 @@
 package Parser.FTSPrepareMR
 
-import MapReduceJobs.MapReduceFunctions
+import Parser.ParseFunctions
 import org.apache.hadoop.io.{LongWritable => LW, Text => T}
 import org.apache.hadoop.mapreduce.Reducer
 
@@ -8,10 +8,10 @@ import org.apache.hadoop.mapreduce.Reducer
  * Created by preethu19th on 10/2/14.
  */
 class FTSDataPrepareReducer extends Reducer[T, LW, T, LW] {
-  var mapRedFunc: MapReduceFunctions = _
+  var mapRedFunc: ParseFunctions = _
 
   override def setup(conT: Reducer[T, LW, T, LW]#Context) = {
-    mapRedFunc = new MapReduceFunctions(conT.getConfiguration)
+    mapRedFunc = new ParseFunctions(conT.getConfiguration)
   }
 
   override def reduce(key: T, values: java.lang.Iterable[LW],

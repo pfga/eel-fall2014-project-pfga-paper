@@ -25,14 +25,14 @@ class HelperFunctionsTest extends FlatSpec {
       assert(base == HelperFunctions.getBase(value))
     }
   }
-/*
+
   "HelperFunctions.getRoundedToBase" should "returns whole number" in {
     val testStrs = Array((44, -1, 40), (44, 1, 50))
     for ((ip, add, op) <- testStrs) {
       assert(op == HelperFunctions.getRoundedToBase(ip, add))
     }
   }
-*/
+
   "HelperFunctions.getRoundedIntervalMinMax" should "returns min, max and interval" in {
     val testMap = Map("1970" -> 11, "1971" -> 22, "1972" -> 33)
     assert((10, 40, 5) == HelperFunctions.getRoundedIntervalMinMax(testMap, 11, 33))

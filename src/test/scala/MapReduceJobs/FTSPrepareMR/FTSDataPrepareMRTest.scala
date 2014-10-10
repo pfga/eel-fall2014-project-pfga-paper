@@ -26,6 +26,7 @@ class FTSDataPrepareMRTest extends FlatSpec {
     mapDriver.runTest()
   }
 
+
   "FTSDataPrepareReducer" should "produce appropriate output" in {
     val values1: java.util.List[LW] = java.util.Arrays.asList(new LW(1010))
     val valuesMinMax: java.util.List[LW] = java.util.Arrays.asList(new LW(10), new LW(20), new LW(30))
