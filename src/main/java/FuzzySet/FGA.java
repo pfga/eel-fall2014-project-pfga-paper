@@ -34,7 +34,8 @@ public class FGA {
             fgp.computePopulation(annualRecords);
             //Sort the population based on the fitness value calculated
             fgp.sortPopulation();
-            System.out.print(fgp.getFittest().getMse() + "\t");
+            System.out.println("Generation " + gen + ":" +
+                    fgp.getFittest().getMse());
             //Applying GA to evolve the population
             fgp.evolvePopulation();
             gen++;

@@ -1,6 +1,6 @@
 #!/bin/sh
 sbt package
-#rm -rf op
+rm -rf op
 export HADOOP_CLASSPATH=/home/$USER/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.10.4.jar:/home/$USER/.ivy2/cache/commons-configuration/commons-configuration/jars/commons-configuration-1.10.jar:/home/$USER/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar
 LIBJARS=/home/$USER/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.10.4.jar,/home/$USER/.ivy2/cache/commons-configuration/commons-configuration/jars/commons-configuration-1.10.jar,/home/$USER/.ivy2/cache/commons-lang/commons-lang/jars/commons-lang-2.6.jar
 

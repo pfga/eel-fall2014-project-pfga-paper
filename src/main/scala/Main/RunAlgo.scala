@@ -24,7 +24,7 @@ object RunAlgo extends App {
   val startTime: Long = System.nanoTime()
   DataParserMRDriver.run(conf, ip, new Path(parseData))
   FTSDataPrepareMRDriver.run(conf, parseData, new Path(ftsIp))
-  System.out.println("Job Finished in " +
+  System.out.println("Jobs Finished in " +
     (System.nanoTime - startTime) / NANO_SEC + " seconds")
 
   val ftsIpFileName = "src/main/resources/input_fts_2.txt"
@@ -32,5 +32,5 @@ object RunAlgo extends App {
   val (annualRecords, min, max, intervals) = HelperUtils.HelperFunctions
     .readReduceOp(new Configuration(), ftsIpFileName)
 
-  FGA.run(10000, annualRecords.asJava, 13000, 20000, 7)
+  FGA.run(400, annualRecords.asJava, 13000, 20000, 7)
 }
