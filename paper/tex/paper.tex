@@ -700,18 +700,42 @@ Fuzzy Time Series, Genetic algorithm, MapReduce
 \\\indent In this project, we intend to use Fuzzy Time Series (FTS) \cite{FTS} and Genetic Algorithm (GA) \cite{GA}  prediction models and translate them into MapReduce paradigm for reliable, accurate and efficient forecasting of time based events.  
 \\\indent The novelty of this implementation is to provide an end-to-end solution by bringing together FTS, GA and MapReduce. FTS and GA being used in conjunction should improve prediction results, while MapReduce should improve running time as well as increase the amount of data ingested.
 
+
+\section{Related Work}
+\\\indent Fuzzy Time Series (FTS) \cite{FTS} is a prediction model that has proved its ability to forecast in numerous use cases, such as tourism \cite{FTS-tourism}, enrollments \cite{FTS-enroll}, temperature \cite{FTS-temperature} and many more.
+\\\indent Holland's Genetic algorithm \cite{GA} has also been successfully been used in multiple prediction examples \cite{GA-bankruptcy,GA-electric,GAEB} and also in conjunction with FTS \cite{FTS-GA}. Genetic algorithm has also been run as MapReduce to solve the OneMax problem \cite{GA-mapreduce}.
+
 \section{Architecture}
-The architecture is divided into three modules data ingestion, prediction and data visualization. This is as shown in \emph{Fig 1.} 
+ \indent For the purpose of implementation of our Hybrid Model we plan to predict the time-based events. As an input to our prediction model we have used the data pertaining to number of events per year for the previous years as our statistical data input.
+\\\indent The architecture is divided into three modules data ingestion, prediction and data visualization. This is as shown in \emph{Figure~\ref{arch}}. 
 
-\section{Use Cases}
-The approach introduced in this paper will enhance the prediction of any time base events such as accidents, election campaigns, sales and so forth. 
-
-\section{Algorithm}
 \begin{figure}
 \includegraphics[width=2.25in]{arch}
 \caption{Architecture of the implementation}
-\label{figure_1}
+\label{arch}
 \end{figure}
+
+\subsection{Data Ingestion}
+This phase will allow a configurable way of parsing the input data. Initially data will be read from a statistical data source such as publicly available data sets relevant to our prediction model. We have processed the data by application of MapReduce Paradigm so as to fine tune the data as per the input specification of GA+FTS Hybrid Prediction Model.
+
+\subsection{Prediction}
+The prediction module involves implementation of GA+FTS hybrid model on the incoming data from our data set. The subsystems for this model are explained below:
+ 
+\subsubsection{Genetic Algorithm (GA)}
+ GA mimics the evolutionary principle of “Survival of the Fittest”. GA can be defined as a set of computational methods that are inspired by evolutionary biology such as mutation, selection, inheritance and crossover that can be used to find solutions to optimization problem. The first step of GA is to generate a random population of possible solution which correspond to a single generation. After this fitness value of every solution is calculated and multiple solutions are selected on basis of their fitness levels to generate a new generation. This process is carried on iteratively till a point of convergence is reached where there is no significant improvement in a generation over previous generation. 
+
+\subsubsection{ Fuzzy Time Series (FTS)}
+ In our prediction model FTS is basically used as a fitness calculator that is to calculate correctness of prediction for each individual solution as a function of Root Mean Square Error (MSE).This is done by dividing the input data for time bound event into even and equal lengths of interval and then random selection of individuals that are product of GA iteration.
+ 
+Thus the working of our hybrid GA+FTS prediction model can be visualized as combination of two functionalities where GA is used to improve correctness of each generation over previous generations and FTS is used as a fitness calculator to check the correctness of prediction in terms of mean square error.
+ 
+
+\subsection{Data Visualization}
+The result data visualization phase will use the prediction model results and display them in various output formats in order to easily understand and visualize the results. 
+
+\section{Design Steps}
+\subsection{Algorithm}
+
 
 The algorithm for this project: 
 \\\indent \textbf{Step 1:} Read the training data which in this case will be time based events.
@@ -722,28 +746,99 @@ The algorithm for this project:
 \\\indent \textbf{Step 6:} The reducer task will perform the selection, cross-over and mutation operations of GA based on the fitness value calculated by the mapper task. Thus, a new generation of individuals will be created.
 \\\indent \textbf{Step 7:} Repeat Steps 4 through 6 until the convergence point is not reached.
 
-\section{Modules}
-\indent There are three major modules namely data ingestion, prediction and data visualization.
-\\\indent Data ingestion will allow a configurable way to parse the input data. On existence of necessarily columns for the prediction, the module will execute. Initially, data will be read from MSExcel format.
-\\\indent Prediction module will include implementation of FTS and GA algorithms in the MapReduce paradigm.
-\\\indent Data visualization module will use the prediction results in various output formats to easily understand and visualize the results.
-
-\section{Flowchart}
-\emph{Fig. 2.} is the flowchart for this implementation
+\subsection{Flowchart}
+\emph{Figure~\ref{flowchart}} is the flowchart for this implementation
 \begin{figure}
 \includegraphics[width=2.5in]{flowchart}
 \caption{Flowchart}
-\label{figure_2}
+\label{flowchart}
 \end{figure}
 
-\section{Potential Result}
-Some of the potential results from this implementation are more accurate predictions, quicker results and comparison to related work.
-\\\indent As FTS and GA are used in an amalgamated way, the expectation is that the prediction model will be more refined in comparison to how FTS performs individually. Furthermore, the use of MapReduce will help speedup the process and help glean quicker running time.
-\\\indent The quantification of ``how correct are the predictions?'' would be evident by using historical data as training, test data and comparing how the predicted value is different from the test value. Finally, we will compare our results with results of related work which could showcase the efficiency of our model in running time and over large data sets. 
+\section{Modules}
+\indent There are three major modules namely data ingestion, prediction and data visualization.
 
-\section{Related Work}
-\\\indent Fuzzy Time Series (FTS) \cite{FTS} is a prediction model that has proved its ability to forecast in numerous use cases, such as tourism \cite{FTS-tourism}, enrollments \cite{FTS-enroll}, temperature \cite{FTS-temperature} and many more.
-\\\indent Holland's Genetic algorithm \cite{GA} has also been successfully been used in multiple prediction examples \cite{GA-bankruptcy,GA-electric,GAEB} and also in conjunction with FTS \cite{FTS-GA}. Genetic algorithm has also been run as MapReduce to solve the OneMax problem \cite{GA-mapreduce}.
+\subsection{Data ingestion}
+\emph{Figure~\ref{dp_interact}} shows the interaction diagram of the Data Ingestion Module.
+
+\begin{figure*}
+\includegraphics[height=2.5in,width=6.5in]{dp_interact}
+\caption{Data Ingestion Interaction Diagram}
+\label{dp_interact}
+\end{figure*}
+\indent Data ingestion is used to consume raw data and produce output which will serve as the input to the prediction module. We have used MapReduce model to parse and raw data and generated the desired input. In this module we have collected time based data which is readily available. For example, the data format will be month wise data for the events for specific region starting from year 1971. The data parser module will use MapReduce paradigm to giveout as year wise format along with the minimum and maximum value from same.
+\\\indent The MapReduce framework operates on \textless key, value\textgreater  pairs, that is, the framework accepts the input to the job as a set of \textless key, value\textgreater  pairs and produces a set of \textless key, value\textgreater  pairs as the output of the job, in different types. The \textless  key, value \textgreater  pair here will be \textless year, no. of events\textgreater . The function of Maps are to transform individual tasks that transform input records into intermediate records. Output of data maps, that is transformed intermediate records do not need to be of the same type as the input records. Reducer reduces a set of intermediate values which share a key to a smaller set of values. Sorted output of the mappers will be the input to reducer. The output of the reducer will be the sum of all events in a particular year.
+
+\subsection{Prediction}
+\indent Figure~\ref{gafts_class_1}, Figure~\ref{gafts_class_2}, Figure~\ref{gafts_class_3}, and Figure~\ref{gafts_interact} are the class and interaction diagrams of the Prediction module.
+
+
+\begin{figure}
+\includegraphics[height=6in,width=3in]{gafts_class_1}
+\caption{Prediction module Class diagram - 1}
+\label{gafts_class_1}
+\end{figure}
+\begin{figure}
+\includegraphics[height=5.5in,width=3in]{gafts_class_2}
+\caption{Prediction module Class diagram - 2}
+\label{gafts_class_2}
+\end{figure}
+\begin{figure}
+\includegraphics[height=2in,width=3in]{gafts_class_3}
+\caption{Prediction module Class diagram - 3}
+\label{gafts_class_3}
+\end{figure}
+
+\begin{figure*}
+\includegraphics[height=2.5in,width=6.5in]{gafts_interact}
+\caption{Prediction module Interaction diagram}
+\label{gafts_interact}
+\end{figure*}
+
+
+\\\indent Prediction module will include implementation of FTS and GA algorithms in the MapReduce paradigm. With the output from  the data ingestion module, the minimum and maximum value as 440 and 1067. The universe of discourse U = [Dmin – D1, Dmax + D2], where Dmin and Dmax denote the minimum events and the maximum events at particular region shown in \emph{Figure~\ref{parseddata}}, and D1 and D2 are two proper values. 
+\\\indent The universe of discourse U will be divided into several even and equal length intervals. Here we have selected D1 as 40 and D2 as 33. Then we will generate population between threshold values which will be our first generation.
+
+\begin{figure}
+\includegraphics[height=3in]{parseddata}
+\caption{Output of Data Ingestion}
+\label{parseddata}
+\end{figure}
+	 	 	
+\\\indent FTS is used as a fitness calculator which calculates the correctness of prediction for each individual as a function of Mean Square Error (MSE). FTS fuzzifies the historical data of the time-based events and generates fuzzy logical relationships based on the order. GA will be used to improve correctness for each generation over the previous generation by making use of GA operators which use the calculated fitness values. The calculated MSE value of each derived chromosome obtained in the new generation, and the same cycle is again implemented till a point of convergence is reached. In this case, the fittest individual will be the one having the lowest mean square error. If the minimum mean square error doesn’t change over subsequent generations then the convergence point of the Genetic Algorithm is reached. \emph{Fig. 5.} is the output of mean squared error between predicted and actual values. 
+
+\begin{figure}
+\includegraphics[width=2.5in]{genop}
+\caption{Output of Mean Square Error over generations}
+\end{figure}
+
+\subsection{Data Visualization}
+
+There are many different types of tools both web based and desktop based which will be very helpful for data visualization. We are exploring the use of Chart.js, Play framework and https://plot.ly/ (web based tool) to showcase our results.
+ \\\indent Chart.js uses the HTML5 canvas element. Chart.js is supported in all modern web browsers, it is javascript based and is lightweight. Play framework is web application framework built using Scala. It is asynchronous and lightweight.
+ \\\indent Plotly is web based tool in which we can upload data to create and style charts with Plotly's online spreadsheet. Using  Plotly \emph{Figure~\ref{datav}} is generated, which is the reduction of MSE over generations.
+
+\begin{figure}
+\includegraphics[width=3.5in]{datav}
+\caption{Reducing Mean Squared Error over the generation}
+\label{datav}
+\end{figure}
+
+\section{Results	}
+The two main metrics for testing our forecasting models will be accuracy and running time. Higher accuracy would be indicated by comparing forecasted results with historical data, that is a lower Mean Squared Error between predicted and actual data sets. \\\indent Another result that we intend to achieve is significant drop in running time by implementing the same in distributed/parallel (Hadoop Framework) manner over normal sequential manner. 
+\begin{figure}
+\includegraphics[width=3.6in]{speedup}
+\caption{Mock up of Speedup using MapReduce}
+\end{figure}
+
+\emph{Fig. 6.} shows the expected differences in running time when the GA+FTS module is used in sequential manner and the same model being used by making use of MapReduce Paradigm. The results were generated on an Intel Core i3 @1.90GHz X4, 64 bits, 4GB RAM.
+We have observed some trends which are as follows, as number of intervals in the universe of discourse are increased, the MSE tends to decrease and as the order of fuzzy logical relationships increases, the MSE will decrease.
+
+\begin{figure}
+\includegraphics[width=3.65in]{predvsact}
+\caption{Actual versus Mock Predicted values}
+\end{figure}
+
+
 
 \section{Novelty of the Idea}
 Though there have been previous researches done in the field of parallel evolutionary algorithm \cite{GA-parallel}, in this paper we have tried to overcome the time incurred by GA-FTS prediction model. 
