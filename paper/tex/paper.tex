@@ -50,7 +50,9 @@
 % and later. Note also the use of a CLASSOPTION conditional provided by
 % IEEEtran.cls V1.7 and later.
 
-\usepackage{placeins}
+% \usepackage{placeins}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
 
 % *** GRAPHICS RELATED PACKAGES ***
 %
@@ -702,7 +704,7 @@ Fuzzy Time Series, Genetic algorithm, MapReduce
 
 
 \section{Related Work}
-\\\indent Fuzzy Time Series (FTS) \cite{FTS} is a prediction model that has proved its ability to forecast in numerous use cases, such as tourism \cite{FTS-tourism}, enrollments \cite{FTS-enroll}, temperature \cite{FTS-temperature} and many more.
+\indent Fuzzy Time Series (FTS) \cite{FTS} is a prediction model that has proved its ability to forecast in numerous use cases, such as tourism \cite{FTS-tourism}, enrollments \cite{FTS-enroll}, temperature \cite{FTS-temperature} and many more.
 \\\indent Holland's Genetic algorithm \cite{GA} has also been successfully been used in multiple prediction examples \cite{GA-bankruptcy,GA-electric,GAEB} and also in conjunction with FTS \cite{FTS-GA}. Genetic algorithm has also been run as MapReduce to solve the OneMax problem \cite{GA-mapreduce}.
 
 \section{Architecture}
@@ -794,9 +796,8 @@ The algorithm for this project:
 \label{gafts_interact}
 \end{figure*}
 
-
-\\\indent Prediction module will include implementation of FTS and GA algorithms in the MapReduce paradigm. With the output from  the data ingestion module, the minimum and maximum value as 440 and 1067. The universe of discourse U = [Dmin – D1, Dmax + D2], where Dmin and Dmax denote the minimum events and the maximum events at particular region shown in \emph{Figure~\ref{parseddata}}, and D1 and D2 are two proper values. 
-\\\indent The universe of discourse U will be divided into several even and equal length intervals. Here we have selected D1 as 40 and D2 as 33. Then we will generate population between threshold values which will be our first generation.
+\indent Prediction module will include implementation of FTS and GA algorithms in the MapReduce paradigm. With the output from  the data ingestion module, the minimum and maximum value as 440 and 1067. The universe of discourse U = [Dmin – D1, Dmax + D2], where Dmin and Dmax denote the minimum events and the maximum events at particular region shown in \emph{Figure~\ref{parseddata}}, and D1 and D2 are two proper values. \\
+\indent The universe of discourse U will be divided into several even and equal length intervals. Here we have selected D1 as 40 and D2 as 33. Then we will generate population between threshold values which will be our first generation.\\
 
 \begin{figure}
 \includegraphics[height=3in]{parseddata}
@@ -804,7 +805,7 @@ The algorithm for this project:
 \label{parseddata}
 \end{figure}
 	 	 	
-\\\indent FTS is used as a fitness calculator which calculates the correctness of prediction for each individual as a function of Mean Square Error (MSE). FTS fuzzifies the historical data of the time-based events and generates fuzzy logical relationships based on the order. GA will be used to improve correctness for each generation over the previous generation by making use of GA operators which use the calculated fitness values. The calculated MSE value of each derived chromosome obtained in the new generation, and the same cycle is again implemented till a point of convergence is reached. In this case, the fittest individual will be the one having the lowest mean square error. If the minimum mean square error doesn’t change over subsequent generations then the convergence point of the Genetic Algorithm is reached. \emph{Fig. 5.} is the output of mean squared error between predicted and actual values. 
+\indent FTS is used as a fitness calculator which calculates the correctness of prediction for each individual as a function of Mean Square Error (MSE). FTS fuzzifies the historical data of the time-based events and generates fuzzy logical relationships based on the order. GA will be used to improve correctness for each generation over the previous generation by making use of GA operators which use the calculated fitness values. The calculated MSE value of each derived chromosome obtained in the new generation, and the same cycle is again implemented till a point of convergence is reached. In this case, the fittest individual will be the one having the lowest mean square error. If the minimum mean square error doesn’t change over subsequent generations then the convergence point of the Genetic Algorithm is reached. \emph{Fig. 5.} is the output of mean squared error between predicted and actual values. 
 
 \begin{figure}
 \includegraphics[width=2.5in]{genop}
@@ -838,6 +839,156 @@ We have observed some trends which are as follows, as number of intervals in the
 \caption{Actual versus Mock Predicted values}
 \end{figure}
 
+\section{Project Management}
+Table~\ref{curr_stat} list the major milestones planned in the project and the progress made for each of these milestones.\\
+\indent Table~\ref{indiv_stat} lists the workload distribution of each of the individual team members. The tasks marked in green have been completed, the tasks mark in yellow are in progress while the tasks marked in red are proposed.\\ 
+ \indent Table~\ref{future_stat}  describes our proposed working schedule for future weeks and how our team plans to complete the deliverable that needs to be submitted before final presentation and demo.
+
+\begin{table*}[t]
+\tiny
+  \centering
+  \definecolor{lightblue}{rgb}{0.93,0.95,1.0}
+
+  
+  
+
+\begin{tabularx}{\textwidth}{| l | X | l | X |}
+  \hline       
+  \rowcolor{lightblue}             
+  \textbf{Sr.No} & \textbf{ Milestones} & \textbf{ Status} & \textbf{ Comments} \\
+  \hline    
+  1. &  Evaluate various parallel systems for project selection & Completed & “Prediction of Time Based Events” finalized as the project topic \\               
+  \hline
+   2. &   Study Genetic algorithm, Fuzzy Time Series and collection of various study material related to our topic & Completed & NA \\
+  \hline  
+     3. &   Project Proposal  & Completed & NA \\
+  \hline  
+  4. &   Implement Phase 1: Data Ingestion Module & In Progress & Major portion of work (95 \%)completed in this module. Exploring some further refinements that can be added to this module \\
+  \hline  
+  5. & Implement Phase 2: GA+FTS Hybrid Module & In Progress & Almost (70 \%) of the work is  completed. Working on how to adapt this module in MapReduce Paradigm \\
+  \hline  
+  6. & Implement Phase 3: Result Visualization & In Progress & Various tools for this Module have 
+been explored. Working on how to 
+integrate this module with the 
+phase 2. (60 \% complete) \\
+  \hline  
+             7. & Midterm Project Deliverable & Completed & NA \\
+  \hline  
+  8. & Integration of all the phases & In Progress & A working module consisting of all 
+the phases has been 
+implemented. Final Integration 
+will be done once work on all the 
+phases is complete \\
+  \hline
+    9. &   Output Generation & In Progress & Some preliminary results have 
+been generated. Once the entire 
+integration is completed the 
+output generation will be done to 
+get all expected results. (30 \% 
+complete)
+ \\
+  \hline
+  10. & Testing and Bug Fixes & Proposed & Once we have a complete running model we will implement this phase \\
+  \hline
+  11. &  Final Presentation and Demo & Proposed & NA \\
+  \hline
+\end{tabularx}
+
+\caption{Current Status}
+\label{curr_stat}
+\end{table*}
+
+\begin{table*}[t]
+
+\tiny
+  
+  \centering
+  \definecolor{lightblue}{rgb}{0.93,0.95,1.0}
+    \definecolor{lightgreen}{rgb}{0.93,1.0,0.95}
+        \definecolor{lightred}{rgb}{1.0,0.93,0.95}
+
+ 
+  
+
+\begin{tabularx}{\textwidth}{| l | X | X | X | X |}
+  \hline     
+    \rowcolor{lightblue}                            
+    \textbf{Sr.No} & \textbf{ Ankit} & \textbf{ Preethu} & \textbf{ Sumeet} & \textbf{ Shantanu} \\
+  \hline 
+      \rowcolor{lightgreen}       
+  1. & Evaluate various parallel systems & Evaluate various parallel systems & Evaluate various parallel systems & Evaluate various parallel systems \\
+  \hline
+        \rowcolor{lightgreen}       
+   2. & Conduct study and collect material for GA & Conduct study and collect material for FTS & Conduct study and collect material for GA & Conduct study and collect material for FTS \\
+  \hline  
+        \rowcolor{lightgreen}       
+   3.  & Explore various data sources to be used as input & Explore various data sources to be used as input & Explore various
+data sources to be used as input & Explore various data sources to be used as input \\
+    \hline  
+          \rowcolor{lightgreen}       
+    4. &  Prepare Proposal Paper & Prepare Proposal Paper & Prepare Proposal Presentation & Prepare Proposal Presentation \\
+      \hline  
+            \rowcolor{lightgreen}       
+	5. &  Understand Working of GA+FTS model & Understand Working of GA+FTS model & Understand Working of GA+FTS model & Understand Working of GA+FTS model \\
+  \hline  
+           \rowcolor{yellow}  
+   6. & Implement GA+FTS model phase & Implement Data Ingestion Phase & Implement Result Visualization Phase & Implement Result Visualization Phase \\
+   \hline  
+              \rowcolor{yellow}  
+   7.  & Integration & Integration & Integration & Integration \\
+   \hline  
+              \rowcolor{yellow}  
+   8. & Output generation and analysis & Output generation and analysis & Output generation and analysis & Output generation and analysis \\
+   \hline  
+         \rowcolor{lightgreen}       
+   9. & Prepare Mid Term Project Paper & Prepare Mid Term Project Presentation & Prepare Mid Term Project Paper & Prepare Mid Term Project Presentation \\
+   \hline  
+         \rowcolor{lightred}       
+   10. & Testing & Testing & Testing & Testing \\
+   \hline  
+            \rowcolor{lightred}  
+   11. & Final Presentation and demo & Final Presentation and demo & Final Presentation and demo & Final Presentation and demo \\
+  \hline
+\end{tabularx}
+
+\caption{Individual Plan of action}
+\label{indiv_stat}
+\end{table*}
+
+
+\begin{table*}[t]
+
+\tiny
+  
+  \centering
+  \definecolor{lightblue}{rgb}{0.93,0.95,1.0}
+  
+ 
+\begin{tabularx}{\textwidth}{ | X | X | X | }
+  \hline     
+    \rowcolor{lightblue}                            
+    \textbf{Week \#} & \textbf{Plan of Action} & \textbf{Task} \\
+    \hline     
+	Week 1 & Completion of work for each individual phases & Complete fine tuning of Data Ingestion Phase, Implement the GA+FTS module in MapReduce paradigm, Finalize the Result Visualization Method to be used for output generation \\
+  \hline     
+	Week 2 & Completion of work for each individual phases and also coordinate on paper presentation for PREGEL & Complete fine tuning of Data Ingestion Phase, Implement the GA+FTS module in MapReduce paradigm, Finalize the Result Visualization Method to be used for output generation, Work on PREGEL presentation and paper \\
+  \hline     
+	Week 3 & Integration on all the working modules & Integrate all the working modules of the project and perform a test run to check if the integration has been successfully implemented \\
+  \hline     
+	Week 4  & Output Generation & Generate all the required outputs and perform analysis to check the correctness of our forecasting model \\
+  \hline     
+	Week 5 & Model Testing & Testing and bug fixes \\
+  \hline     
+	Week 6 & Preparation of final deliverable &  Preparing all the final project deliverable such as project report, presentation and working demo \\
+  \hline     
+	Week 7 & Final Demo and Presentation &  Provide all the final deliverable \\
+	  \hline     
+\end{tabularx}
+
+\caption{Future Plan}
+\label{future_stat}
+\end{table*}
+
 
 
 \section{Novelty of the Idea}
@@ -845,9 +996,8 @@ Though there have been previous researches done in the field of parallel evoluti
 \\\indent Also, with the advent of MapReduce \cite{mapreduce} paradigm, it is much easier to abstract parallel system operations; while paving the way to concentrate on the problem at hand. However, a restrictive programming model like MapReduce, requires the translation of the algorithm in the form of map/reduce functions. This is still a major challenge and needs to be done with much consideration. 
 
 \section{Possibilities  to Consider}
-\indent During the execution of the project, the following will still be in consideration:
-
-  \\\indent \textbf{Can we dynamically retrieve data?} Initially, we will be manually downloading/creating the data.
+\indent During the execution of the project, the following will still be in consideration:\\
+\indent \textbf{Can we dynamically retrieve data?} Initially, we will be manually downloading/creating the data.
   \\\indent \textbf{Can we use some other parallel framework?} Possible candidates could be Spark \cite{spark-site}, Storm \cite{storm-site}, Giraph \cite{giraph-site} or Hama \cite{hama-site}
   \\\indent \textbf{Can we employ different MapReduce models of GA?} Initially, only selection, crossover and mutation stages will be in reducer phase. We need to evaluate different mechanisms to improve the reduce phase.
   \\\indent \textbf{Can we dynamically set thresholds for FTS/GA and number of individuals in GA?} We will be manually tweaking these threshold values and visualizing the effects. We will try to have a dynamic way to sample training data and running multiple instance of the algorithm in parallel to decide appropriate threshold values.
