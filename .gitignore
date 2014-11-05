@@ -1,6 +1,9 @@
 project/project
 .gitignore
 target
-tex/IEEEtran.cls
-tex/paper.pdf
+paper/tex/IEEEtran.cls
+paper/tex/paper.pdf
 .idea
+*.aux
+*.log
+*.synctex*
