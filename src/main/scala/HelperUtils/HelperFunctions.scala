@@ -1,9 +1,11 @@
 package HelperUtils
 
-import java.io.{BufferedReader, InputStreamReader}
+import java.io.{FileReader, BufferedReader, InputStreamReader}
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileSystem, Path}
+
+import scala.collection.mutable.ArrayBuffer
 
 object HelperFunctions {
   /**
@@ -42,11 +44,11 @@ object HelperFunctions {
    *
    * @param conf
    * @param opStr
-   * @return (annualRecords:List[(String,Int)],min:Int,max:Int,intervals:Int)
+   * @return (annualRecords:Array[(String,Int)],min:Int,max:Int,intervals:Int)
    */
   def readReduceOp(conf: Configuration, opStr: String) = {
     var avgDist = Map[String, Int]()
-    var (listLines, min, max) = (List[(String, Int)](), 0, 0)
+    var (listLines, min, max) = (ArrayBuffer[(String, Int)](), 0, 0)
     try {
       val op = new Path(opStr)
       val fs = FileSystem.get(conf)
@@ -61,7 +63,7 @@ object HelperFunctions {
             case "min" => min = cols(1).toInt
             case _ =>
               avgDist = avgDist + Tuple2(cols(0), cols(1).toInt)
-              listLines = (cols(0), cols(1).toInt) :: listLines
+              listLines.append((cols(0), cols(1).toInt)) // :: listLines
           }
         }
         line = bufRead.readLine()
@@ -73,7 +75,36 @@ object HelperFunctions {
 
 
     val (retmin, retmax, intervals) = getRoundedIntervalMinMax(avgDist, min, max)
-    (listLines.reverse, retmin, retmax, intervals)
+    (listLines.toArray, retmin, retmax, intervals)
+  }
+
+  def readCacheFile(conf: Configuration, opStr: String) = {
+    var avgDist = Map[String, Int]()
+    var (listLines, min, max) = (ArrayBuffer[(String, Int)](), 0, 0)
+    try {
+      val bufRead = new BufferedReader(new FileReader(opStr))
+
+      var line = bufRead.readLine()
+      while (line != null) {
+        if (!line.trim.isEmpty) {
+          val cols = line.split("\t")
+          cols(0) match {
+            case "max" => max = cols(1).toInt
+            case "min" => min = cols(1).toInt
+            case _ =>
+              avgDist = avgDist + Tuple2(cols(0), cols(1).toInt)
+              listLines.append((cols(0), cols(1).toInt))
+          }
+        }
+        line = bufRead.readLine()
+      }
+      bufRead.close
+    } catch {
+      case e: Exception => println(e)
+    }
+
+    val (retmin, retmax, intervals) = getRoundedIntervalMinMax(avgDist, min, max)
+    (listLines.toArray, retmin, retmax, intervals)
   }
 
   /**

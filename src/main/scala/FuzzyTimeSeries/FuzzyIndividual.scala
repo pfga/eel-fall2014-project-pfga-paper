@@ -3,19 +3,24 @@ package FuzzyTimeSeries
 import scala.collection.{mutable => m}
 
 class FuzzyIndividual {
+  val delim = " "
   var universe: Array[Int] = _
   var annualRecords: Array[AnnualRecord] = _
   val discourseMap = m.Map[String, Int]()
   var mse: Double = 0.0
 
-  def setUniverse(ul: Int, ll: Int, numOfElements: Int) = {
+  override def toString() = {
+    universe.mkString(delim)
+  }
+
+  def generateUniverse(ul: Int, ll: Int, numOfElements: Int) = {
     val u = Array.ofDim[Int](numOfElements + 2)
     u(0) = ll
     u(numOfElements + 1) = ul
     val divisions = (ul - ll + 1) / numOfElements
 
     (1 to numOfElements).foreach { i =>
-      val oldLl = u(i - 1)
+      val oldLl = u(i - 1) + 1
       val newLl = ll + (i * divisions)
       val random = Math.random()
       val limitDiff = newLl - oldLl + 1
@@ -26,19 +31,38 @@ class FuzzyIndividual {
       u(i) = universeElem
 
       //set discourseMap according to the newly set interval
-      setDiscourseMap(i, u)
+      setDiscourseMap(i, u(i), u(i - 1))
     }
     //set the last discourseMap
-    setDiscourseMap(numOfElements + 1, u)
+    setDiscourseMap(numOfElements + 1, u(numOfElements + 1), u(numOfElements))
 
     universe = u
   }
 
-  def setDiscourseMap(i: Int, u: Array[Int]) = {
-    discourseMap("A" + (i - 1)) = Math.ceil((u(i - 1) + u(i)) / 2).toInt
+  /**
+   * To initailize universe with already generated data
+   * @param intervalStr
+   */
+
+  def setUniverse(intervalStr: String) = {
+    annualRecords = Array.empty
+    discourseMap.empty
+    var prevVal = 0
+    universe = intervalStr.split(delim).zipWithIndex.map { ipCols =>
+      val (s, idx) = ipCols
+      val currVal = s.toInt
+      if (idx > 0)
+        setDiscourseMap(idx, prevVal, currVal)
+      prevVal = currVal
+      currVal
+    }
   }
 
-  def initializeFuzzySet(ars: List[(String, Int)], order: Int) {
+  def setDiscourseMap(i: Int, u1: Int, u2: Int) = {
+    discourseMap("A" + (i - 1)) = Math.ceil((u1 + u2) / 2).toInt
+  }
+
+  def initializeFuzzySet(ars: Array[(String, Int)], order: Int) {
     val arMap = m.Map[String, String]()
     val lfrgQueue = m.Queue[String]()
 
