@@ -4,13 +4,14 @@ import scala.collection.{mutable => m}
 
 class FuzzyIndividual {
   val delim = " "
-  var universe: Array[Int] = _
+  val mseDelim = "\u0001"
+  var chromosome: Array[Int] = _
   var annualRecords: Array[AnnualRecord] = _
   val discourseMap = m.Map[String, Int]()
   var mse: Double = 0.0
 
   override def toString() = {
-    universe.mkString(delim)
+    s"${chromosome.mkString(delim)}$mseDelim$mse"
   }
 
   def generateUniverse(ul: Int, ll: Int, numOfElements: Int) = {
@@ -36,19 +37,21 @@ class FuzzyIndividual {
     //set the last discourseMap
     setDiscourseMap(numOfElements + 1, u(numOfElements + 1), u(numOfElements))
 
-    universe = u
+    chromosome = u
   }
 
   /**
-   * To initailize universe with already generated data
-   * @param intervalStr
+   * To initialize universe with already generated data
+   * @param ipStr
    */
 
-  def setUniverse(intervalStr: String) = {
+  def setUniverse(ipStr: String) = {
+    val ipCols = ipStr.split(mseDelim, 2)
+    val intervalStr = ipCols(0)
     annualRecords = Array.empty
     discourseMap.empty
     var prevVal = 0
-    universe = intervalStr.split(delim).zipWithIndex.map { ipCols =>
+    chromosome = intervalStr.split(delim).zipWithIndex.map { ipCols =>
       val (s, idx) = ipCols
       val currVal = s.toInt
       if (idx > 0)
@@ -97,15 +100,15 @@ class FuzzyIndividual {
     annualRecords.foreach { rec => rec.flrgRH = arMap.getOrElse(rec.flrgLH, "")}
   }
 
-  def ceilSearch(x: Int, low: Int = 0, high: Int = universe.length): Int = {
+  def ceilSearch(x: Int, low: Int = 0, high: Int = chromosome.length): Int = {
     val mid: Int = (low + high) / 2
-    if (universe(mid) == x) mid
-    else if (universe(mid) < x) {
-      if (mid + 1 <= high && x <= universe(mid + 1)) mid
+    if (chromosome(mid) == x) mid
+    else if (chromosome(mid) < x) {
+      if (mid + 1 <= high && x <= chromosome(mid + 1)) mid
       else ceilSearch(x, mid + 1, high)
     }
     else {
-      if (mid - 1 >= low && x > universe(mid - 1)) mid - 1
+      if (mid - 1 >= low && x > chromosome(mid - 1)) mid - 1
       else ceilSearch(x, low, mid - 1)
     }
   }
