@@ -8,4 +8,6 @@ object PFGAConstants {
   val FTS_IP_PATH = "/ftsIpPath"
   val REDUCE_PART_FILENAME = "/part-r-00000"
   val NANO_SEC = 1000000000.0
+  val SPACE_DELIM = " "
+  val MSE_DELIM = "\u0001"
 }

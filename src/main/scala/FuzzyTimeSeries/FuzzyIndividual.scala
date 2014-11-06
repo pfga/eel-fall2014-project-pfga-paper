@@ -1,20 +1,20 @@
 package FuzzyTimeSeries
 
 import scala.collection.{mutable => m}
+import Main.PFGAConstants._
 
 class FuzzyIndividual {
-  val delim = " "
-  val mseDelim = "\u0001"
+
   var chromosome: Array[Int] = _
   var annualRecords: Array[AnnualRecord] = _
   val discourseMap = m.Map[String, Int]()
   var mse: Double = 0.0
 
   override def toString() = {
-    s"${chromosome.mkString(delim)}$mseDelim$mse"
+    s"${chromosome.mkString(SPACE_DELIM)}$MSE_DELIM$mse"
   }
 
-  def generateUniverse(ul: Int, ll: Int, numOfElements: Int) = {
+  def generateChromosome(ul: Int, ll: Int, numOfElements: Int) = {
     val u = Array.ofDim[Int](numOfElements + 2)
     u(0) = ll
     u(numOfElements + 1) = ul
@@ -45,13 +45,14 @@ class FuzzyIndividual {
    * @param ipStr
    */
 
-  def setUniverse(ipStr: String) = {
-    val ipCols = ipStr.split(mseDelim, 2)
+  def setChromosome(ipStr: String) = {
+    val ipCols = ipStr.split(MSE_DELIM, 2)
     val intervalStr = ipCols(0)
+    mse = ipCols(1).toDouble
     annualRecords = Array.empty
     discourseMap.empty
     var prevVal = 0
-    chromosome = intervalStr.split(delim).zipWithIndex.map { ipCols =>
+    chromosome = intervalStr.split(SPACE_DELIM).zipWithIndex.map { ipCols =>
       val (s, idx) = ipCols
       val currVal = s.toInt
       if (idx > 0)

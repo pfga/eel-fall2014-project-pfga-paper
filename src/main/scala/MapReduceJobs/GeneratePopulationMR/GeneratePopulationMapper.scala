@@ -13,7 +13,7 @@ class GeneratePopulationMapper extends Mapper[LW, T, NW, T] {
   var ul: Int = _
   var numOfElements: Int = _
   var order = 3
-  var numInd = 10000
+  var numInd = 1000
   var lineCnt = 0
   var population = ArrayBuffer[AnnualRecord]()
 
@@ -35,7 +35,7 @@ class GeneratePopulationMapper extends Mapper[LW, T, NW, T] {
                    conT: Mapper[LW, T, NW, T]#Context) = {
     lineCnt += 1
     val f = new FuzzyIndividual()
-    f.setUniverse(value.toString.trim)
+    f.setChromosome(value.toString.trim)
     f.initializeFuzzySet(annualRecords, order)
     f.forecastValues()
     conT.write(NW.get(), new T(f.toString))
@@ -45,7 +45,7 @@ class GeneratePopulationMapper extends Mapper[LW, T, NW, T] {
     if (lineCnt == 0) {
       (0 until numInd).foreach { i =>
         val f = new FuzzyIndividual()
-        f.generateUniverse(ul, ll, numOfElements)
+        f.generateChromosome(ul, ll, numOfElements)
         f.initializeFuzzySet(annualRecords, order)
         f.forecastValues()
         conT.write(NW.get(), new T(f.toString))
