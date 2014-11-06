@@ -7,13 +7,17 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class GeneratePopulationReducer extends Reducer<NullWritable, Text, NullWritable, Text> {
+public class GeneratePopulationReducer extends
+        Reducer<NullWritable, Text, NullWritable, Text> {
     @Override
-    public void reduce(NullWritable key, Iterable<Text> values, Context context) throws
+    public void reduce(NullWritable key,
+                       Iterable<Text> values, Context context) throws
             IOException, InterruptedException {
         for (Text value : values) {
             FuzzyIndividual fuzObj = new FuzzyIndividual();
             fuzObj.setChromosome(value.toString());
+            double fuzObjMse = fuzObj.mse();
+            int[] chromosome = fuzObj.chromosome();
             context.write(NullWritable.get(), new Text(fuzObj.toString()));
         }
     }
